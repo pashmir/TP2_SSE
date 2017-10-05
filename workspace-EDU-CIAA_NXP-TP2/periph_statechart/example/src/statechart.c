@@ -43,8 +43,8 @@
 #define TICKRATE_HZ (TICKRATE_1000HZ)
 
 
-#define TP2_X ('X')	/* Test Statechart EDU-CIAA-NXP - Blink LED3 */
-#define TP2_X ('X')	/* Test Statechart EDU-CIAA-NXP - Blink TimeEvent LED3 */
+#define TP2_X ('X')	/* Test Statechart EDU-CIAA-NXP - Blink LED3. Usar prefix=BlinkWOTimeEvent.sct*/
+#define TP2_XX ('XX')	/* Test Statechart EDU-CIAA-NXP - Blink TimeEvent LED3 Usar prefix=BlinkTimeEvent.sct*/
 #define TP2_Y ('Y')	/* Test Statechart EDU-CIAA-NXP - Idle Blink LED3 */
 #define TP2_Z ('Y')	/* Test Statechart EDU-CIAA-NXP - Button */
 #define TP2_1 (1)	/* Test Statechart EDU-CIAA-NXP - IDE LPCXpresso - Application */
@@ -54,7 +54,7 @@
 #define TP2_5 (5)	/* Test Statechart EDU-CIAA-NXP - Escalera Mecánica */
 #define TP2_6 (6)	/* Test Statechart EDU-CIAA-NXP - Horno Microondas */
 
-#define TEST (TP2_X)
+#define TEST (TP2_XX)
 
 
 /*****************************************************************************
@@ -65,7 +65,11 @@ volatile bool SysTick_Time_Flag = false;
 /*! This is a state machine */
 static Prefix statechart;
 
+#if TEST== TP2_X
 #define __USE_TIME_EVENTS (false)	/* "true" with TimerEvents or "false" without TimeEvents */
+#elif TEST== TP2_XX
+#define __USE_TIME_EVENTS (true)
+#endif
 
 /*! This is a timed state machine that requires timer services */
 #if (__USE_TIME_EVENTS == true)
