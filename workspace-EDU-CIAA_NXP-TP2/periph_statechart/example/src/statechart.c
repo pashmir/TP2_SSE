@@ -46,7 +46,7 @@
 #define TP2_X ('X')	/* Test Statechart EDU-CIAA-NXP - Blink LED3. Usar prefix=BlinkWOTimeEvent.sct*/
 #define TP2_XX ('XX')	/* Test Statechart EDU-CIAA-NXP - Blink TimeEvent LED3 Usar prefix=BlinkTimeEvent.sct*/
 #define TP2_Y ('Y')	/* Test Statechart EDU-CIAA-NXP - Idle Blink LED3 */
-#define TP2_Z ('Y')	/* Test Statechart EDU-CIAA-NXP - Button */
+#define TP2_Z ('Z')	/* Test Statechart EDU-CIAA-NXP - Button */
 #define TP2_1 (1)	/* Test Statechart EDU-CIAA-NXP - IDE LPCXpresso - Application */
 #define TP2_2 (2)	/* Test Statechart EDU-CIAA-NXP - Panel de Control Generador de Señales */
 #define TP2_3 (3)	/* Test Statechart EDU-CIAA-NXP - Puerta Corrediza */
@@ -54,7 +54,7 @@
 #define TP2_5 (5)	/* Test Statechart EDU-CIAA-NXP - Escalera Mecánica */
 #define TP2_6 (6)	/* Test Statechart EDU-CIAA-NXP - Horno Microondas */
 
-#define TEST (TP2_XX)
+#define TEST (TP2_Z)
 
 
 /*****************************************************************************
@@ -67,7 +67,7 @@ static Prefix statechart;
 
 #if (TEST==TP2_X)
 #define __USE_TIME_EVENTS (false)	/* "true" with TimerEvents or "false" without TimeEvents */
-#elif (TEST==TP2_XX)
+#elif (TEST==TP2_XX) || (TEST==TP2_Y) || (TEST==TP2_Z)
 #define __USE_TIME_EVENTS (true)
 #endif
 
@@ -203,7 +203,7 @@ int main(void)
 #endif
 
 
-#if (TEST == TP2_Y)
+#if (TEST == TP2_Y) || (TEST == TP2_Z)
 /**
  * @brief	main routine for statechart example
  * @return	Function should not exit.

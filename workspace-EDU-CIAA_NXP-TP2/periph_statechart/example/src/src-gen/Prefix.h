@@ -14,26 +14,47 @@ extern "C" {
 /*! Enumeration of all states */ 
 typedef enum
 {
-	Prefix_main_region_APAGADO,
-	Prefix_main_region_ENCENDIDO,
+	Prefix_TECX_DEBOUNCE,
+	Prefix_TECX_NO_OPRIMIDO,
+	Prefix_TECX_OPRIMIDO,
+	Prefix_TECX_VALIDACION,
+	Prefix_LED3_TITILA,
+	Prefix_LED3_TITILA_r1_ENCENDIDO,
+	Prefix_LED3_TITILA_r1_APAGADO,
+	Prefix_LED3_REPOSO,
 	Prefix_last_state
 } PrefixStates;
+
+/*! Type definition of the data structure for the PrefixIface interface scope. */
+typedef struct
+{
+	sc_boolean evTECXOprimido_raised;
+	sc_boolean evTECXNoOprimido_raised;
+} PrefixIface;
 
 /* Declaration of constants for scope PrefixIface. */
 extern const sc_integer PREFIX_PREFIXIFACE_LED3;
 extern const sc_boolean PREFIX_PREFIXIFACE_LED_ON;
 extern const sc_boolean PREFIX_PREFIXIFACE_LED_OFF;
 
+/*! Type definition of the data structure for the PrefixInternal interface scope. */
+typedef struct
+{
+	sc_boolean siTitilarLED_raised;
+	sc_boolean siNoTitilarLED_raised;
+} PrefixInternal;
+
 /*! Type definition of the data structure for the PrefixTimeEvents interface scope. */
 typedef struct
 {
-	sc_boolean prefix_main_region_APAGADO_tev0_raised;
-	sc_boolean prefix_main_region_ENCENDIDO_tev0_raised;
+	sc_boolean prefix_TECX_DEBOUNCE_tev0_raised;
+	sc_boolean prefix_LED3_TITILA_r1_ENCENDIDO_tev0_raised;
+	sc_boolean prefix_LED3_TITILA_r1_APAGADO_tev0_raised;
 } PrefixTimeEvents;
 
 
 /*! Define dimension of the state configuration vector for orthogonal states. */
-#define PREFIX_MAX_ORTHOGONAL_STATES 1
+#define PREFIX_MAX_ORTHOGONAL_STATES 2
 
 /*! 
  * Type definition of the data structure for the Prefix state machine.
@@ -44,6 +65,8 @@ typedef struct
 	PrefixStates stateConfVector[PREFIX_MAX_ORTHOGONAL_STATES];
 	sc_ushort stateConfVectorPosition; 
 	
+	PrefixIface iface;
+	PrefixInternal internal;
 	PrefixTimeEvents timeEvents;
 } Prefix;
 
@@ -61,6 +84,12 @@ extern void prefix_runCycle(Prefix* handle);
 
 /*! Raises a time event. */
 extern void prefix_raiseTimeEvent(const Prefix* handle, sc_eventid evid);
+
+/*! Raises the in event 'evTECXOprimido' that is defined in the default interface scope. */ 
+extern void prefixIface_raise_evTECXOprimido(Prefix* handle);
+
+/*! Raises the in event 'evTECXNoOprimido' that is defined in the default interface scope. */ 
+extern void prefixIface_raise_evTECXNoOprimido(Prefix* handle);
 
 /*! Gets the value of the variable 'LED3' that is defined in the default interface scope. */ 
 extern const sc_integer prefixIface_get_lED3(const Prefix* handle);
