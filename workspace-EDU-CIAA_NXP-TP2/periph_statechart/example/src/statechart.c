@@ -54,7 +54,7 @@
 #define TP2_5 (5)	/* Test Statechart EDU-CIAA-NXP - Escalera Mecánica */
 #define TP2_6 (6)	/* Test Statechart EDU-CIAA-NXP - Horno Microondas */
 
-#define TEST (TP2_X)
+#define TEST (TP2_XX)
 
 
 /*****************************************************************************
@@ -65,9 +65,9 @@ volatile bool SysTick_Time_Flag = false;
 /*! This is a state machine */
 static Prefix statechart;
 
-#if TEST== TP2_X
+#if (TEST==TP2_X)
 #define __USE_TIME_EVENTS (false)	/* "true" with TimerEvents or "false" without TimeEvents */
-#elif TEST== TP2_XX
+#elif (TEST==TP2_XX)
 #define __USE_TIME_EVENTS (true)
 #endif
 
@@ -150,7 +150,7 @@ void SysTick_Handler(void)
 }
 
 
-#if (TEST == TP2_X)
+#if (TEST == TP2_X) || (TEST == TP2_XX)
 /**
  * @brief	main routine for statechart example
  * @return	Function should not exit.
