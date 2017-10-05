@@ -54,7 +54,7 @@
 #define TP2_5 (5)	/* Test Statechart EDU-CIAA-NXP - Escalera Mecánica */
 #define TP2_6 (6)	/* Test Statechart EDU-CIAA-NXP - Horno Microondas */
 
-#define TEST (TP2_XX)
+#define TEST (TP2_X)
 
 
 /*****************************************************************************

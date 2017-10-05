@@ -19,17 +19,16 @@ typedef enum
 	Prefix_last_state
 } PrefixStates;
 
+/*! Type definition of the data structure for the PrefixIface interface scope. */
+typedef struct
+{
+	sc_boolean evTick_raised;
+} PrefixIface;
+
 /* Declaration of constants for scope PrefixIface. */
 extern const sc_integer PREFIX_PREFIXIFACE_LED3;
 extern const sc_boolean PREFIX_PREFIXIFACE_LED_ON;
 extern const sc_boolean PREFIX_PREFIXIFACE_LED_OFF;
-
-/*! Type definition of the data structure for the PrefixTimeEvents interface scope. */
-typedef struct
-{
-	sc_boolean prefix_main_region_APAGADO_tev0_raised;
-	sc_boolean prefix_main_region_ENCENDIDO_tev0_raised;
-} PrefixTimeEvents;
 
 
 /*! Define dimension of the state configuration vector for orthogonal states. */
@@ -44,7 +43,7 @@ typedef struct
 	PrefixStates stateConfVector[PREFIX_MAX_ORTHOGONAL_STATES];
 	sc_ushort stateConfVectorPosition; 
 	
-	PrefixTimeEvents timeEvents;
+	PrefixIface iface;
 } Prefix;
 
 /*! Initializes the Prefix state machine data structures. Must be called before first usage.*/
@@ -59,8 +58,9 @@ extern void prefix_exit(Prefix* handle);
 /*! Performs a 'run to completion' step. */
 extern void prefix_runCycle(Prefix* handle);
 
-/*! Raises a time event. */
-extern void prefix_raiseTimeEvent(const Prefix* handle, sc_eventid evid);
+
+/*! Raises the in event 'evTick' that is defined in the default interface scope. */ 
+extern void prefixIface_raise_evTick(Prefix* handle);
 
 /*! Gets the value of the variable 'LED3' that is defined in the default interface scope. */ 
 extern const sc_integer prefixIface_get_lED3(const Prefix* handle);
