@@ -48,13 +48,13 @@
 #define TP2_Y ('Y')	/* Test Statechart EDU-CIAA-NXP - Idle Blink LED3 */
 #define TP2_Z ('Z')	/* Test Statechart EDU-CIAA-NXP - Button */
 #define TP2_1 (1)	/* Test Statechart EDU-CIAA-NXP - IDE LPCXpresso - Application */
-#define TP2_2 (2)	/* Test Statechart EDU-CIAA-NXP - Panel de Control Generador de Señales */
+#define TP2_2 (1)	/* Test Statechart EDU-CIAA-NXP - Panel de Control Generador de Señales. El panel de control usa el mismo main que aplication*/
 #define TP2_3 (3)	/* Test Statechart EDU-CIAA-NXP - Puerta Corrediza */
 #define TP2_4 (4)	/* Test Statechart EDU-CIAA-NXP - Portón de Cochera */
 #define TP2_5 (5)	/* Test Statechart EDU-CIAA-NXP - Escalera Mecánica */
 #define TP2_6 (6)	/* Test Statechart EDU-CIAA-NXP - Horno Microondas */
 
-#define TEST (TP2_Z)
+#define TEST (TP2_2)
 
 
 /*****************************************************************************
