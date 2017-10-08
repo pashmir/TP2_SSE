@@ -28,6 +28,7 @@ static void prefix_effect_LED3_TITILA_r1_APAGADO_tr0(Prefix* handle);
 static void prefix_effect_LED3_REPOSO_tr0(Prefix* handle);
 static void prefix_enact_TECX_DEBOUNCE(Prefix* handle);
 static void prefix_enact_TECX_OPRIMIDO(Prefix* handle);
+static void prefix_enact_TECX_LED(Prefix* handle);
 static void prefix_enact_LED3_TITILA_r1_ENCENDIDO(Prefix* handle);
 static void prefix_enact_LED3_TITILA_r1_APAGADO(Prefix* handle);
 static void prefix_enact_LED3_REPOSO(Prefix* handle);
@@ -39,6 +40,7 @@ static void prefix_enseq_TECX_DEBOUNCE_default(Prefix* handle);
 static void prefix_enseq_TECX_NO_OPRIMIDO_default(Prefix* handle);
 static void prefix_enseq_TECX_OPRIMIDO_default(Prefix* handle);
 static void prefix_enseq_TECX_VALIDACION_default(Prefix* handle);
+static void prefix_enseq_TECX_LED_default(Prefix* handle);
 static void prefix_enseq_LED3_TITILA_default(Prefix* handle);
 static void prefix_enseq_LED3_TITILA_r1_ENCENDIDO_default(Prefix* handle);
 static void prefix_enseq_LED3_TITILA_r1_APAGADO_default(Prefix* handle);
@@ -50,6 +52,7 @@ static void prefix_exseq_TECX_DEBOUNCE(Prefix* handle);
 static void prefix_exseq_TECX_NO_OPRIMIDO(Prefix* handle);
 static void prefix_exseq_TECX_OPRIMIDO(Prefix* handle);
 static void prefix_exseq_TECX_VALIDACION(Prefix* handle);
+static void prefix_exseq_TECX_LED(Prefix* handle);
 static void prefix_exseq_LED3_TITILA(Prefix* handle);
 static void prefix_exseq_LED3_TITILA_r1_ENCENDIDO(Prefix* handle);
 static void prefix_exseq_LED3_TITILA_r1_APAGADO(Prefix* handle);
@@ -61,6 +64,7 @@ static void prefix_react_TECX_DEBOUNCE(Prefix* handle);
 static void prefix_react_TECX_NO_OPRIMIDO(Prefix* handle);
 static void prefix_react_TECX_OPRIMIDO(Prefix* handle);
 static void prefix_react_TECX_VALIDACION(Prefix* handle);
+static void prefix_react_TECX_LED(Prefix* handle);
 static void prefix_react_LED3_TITILA_r1_ENCENDIDO(Prefix* handle);
 static void prefix_react_LED3_TITILA_r1_APAGADO(Prefix* handle);
 static void prefix_react_LED3_REPOSO(Prefix* handle);
@@ -175,6 +179,11 @@ void prefix_runCycle(Prefix* handle)
 			prefix_react_TECX_VALIDACION(handle);
 			break;
 		}
+		case Prefix_TECX_LED :
+		{
+			prefix_react_TECX_LED(handle);
+			break;
+		}
 		case Prefix_LED3_TITILA_r1_ENCENDIDO :
 		{
 			prefix_react_LED3_TITILA_r1_ENCENDIDO(handle);
@@ -226,6 +235,10 @@ sc_boolean prefix_isStateActive(const Prefix* handle, PrefixStates state)
 			break;
 		case Prefix_TECX_VALIDACION :
 			result = (sc_boolean) (handle->stateConfVector[0] == Prefix_TECX_VALIDACION
+			);
+			break;
+		case Prefix_TECX_LED :
+			result = (sc_boolean) (handle->stateConfVector[0] == Prefix_TECX_LED
 			);
 			break;
 		case Prefix_LED3_TITILA :
@@ -389,6 +402,13 @@ static void prefix_enact_TECX_OPRIMIDO(Prefix* handle)
 	handle->internal.siTitilarLED_raised = bool_true;
 }
 
+/* Entry action for state 'LED'. */
+static void prefix_enact_TECX_LED(Prefix* handle)
+{
+	/* Entry action for state 'LED'. */
+	handle->internal.siTitilarLED_raised = bool_true;
+}
+
 /* Entry action for state 'ENCENDIDO'. */
 static void prefix_enact_LED3_TITILA_r1_ENCENDIDO(Prefix* handle)
 {
@@ -471,6 +491,15 @@ static void prefix_enseq_TECX_VALIDACION_default(Prefix* handle)
 {
 	/* 'default' enter sequence for state VALIDACION */
 	handle->stateConfVector[0] = Prefix_TECX_VALIDACION;
+	handle->stateConfVectorPosition = 0;
+}
+
+/* 'default' enter sequence for state LED */
+static void prefix_enseq_TECX_LED_default(Prefix* handle)
+{
+	/* 'default' enter sequence for state LED */
+	prefix_enact_TECX_LED(handle);
+	handle->stateConfVector[0] = Prefix_TECX_LED;
 	handle->stateConfVectorPosition = 0;
 }
 
@@ -563,6 +592,14 @@ static void prefix_exseq_TECX_VALIDACION(Prefix* handle)
 	handle->stateConfVectorPosition = 0;
 }
 
+/* Default exit sequence for state LED */
+static void prefix_exseq_TECX_LED(Prefix* handle)
+{
+	/* Default exit sequence for state LED */
+	handle->stateConfVector[0] = Prefix_last_state;
+	handle->stateConfVectorPosition = 0;
+}
+
 /* Default exit sequence for state TITILA */
 static void prefix_exseq_LED3_TITILA(Prefix* handle)
 {
@@ -621,6 +658,11 @@ static void prefix_exseq_TECX(Prefix* handle)
 		case Prefix_TECX_VALIDACION :
 		{
 			prefix_exseq_TECX_VALIDACION(handle);
+			break;
+		}
+		case Prefix_TECX_LED :
+		{
+			prefix_exseq_TECX_LED(handle);
 			break;
 		}
 		default: break;
@@ -720,6 +762,12 @@ static void prefix_react_TECX_VALIDACION(Prefix* handle)
 	}
 }
 
+/* The reactions of state LED. */
+static void prefix_react_TECX_LED(Prefix* handle)
+{
+	/* The reactions of state LED. */
+}
+
 /* The reactions of state ENCENDIDO. */
 static void prefix_react_LED3_TITILA_r1_ENCENDIDO(Prefix* handle)
 {
@@ -766,7 +814,7 @@ static void prefix_react_LED3_REPOSO(Prefix* handle)
 static void prefix_react_TECX__entry_Default(Prefix* handle)
 {
 	/* Default react sequence for initial entry  */
-	prefix_enseq_TECX_NO_OPRIMIDO_default(handle);
+	prefix_enseq_TECX_LED_default(handle);
 }
 
 /* Default react sequence for initial entry  */

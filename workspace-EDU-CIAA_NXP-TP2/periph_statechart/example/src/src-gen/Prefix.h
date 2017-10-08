@@ -18,6 +18,7 @@ typedef enum
 	Prefix_TECX_NO_OPRIMIDO,
 	Prefix_TECX_OPRIMIDO,
 	Prefix_TECX_VALIDACION,
+	Prefix_TECX_LED,
 	Prefix_LED3_TITILA,
 	Prefix_LED3_TITILA_r1_ENCENDIDO,
 	Prefix_LED3_TITILA_r1_APAGADO,
