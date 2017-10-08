@@ -67,7 +67,7 @@ static Prefix statechart;
 
 #if (TEST==TP2_X)
 #define __USE_TIME_EVENTS (false)	/* "true" with TimerEvents or "false" without TimeEvents */
-#elif (TEST==TP2_XX) || (TEST==TP2_Y) || (TEST==TP2_Z)
+#elif (TEST==TP2_XX) || (TEST==TP2_Y) || (TEST==TP2_Z) || (TEST==TP2_1)
 #define __USE_TIME_EVENTS (true)
 #endif
 
@@ -314,9 +314,9 @@ int main(void)
 
 			BUTTON_Status = Buttons_GetStatus();
 			if (BUTTON_Status != 0)									// Event -> evTECXOprimodo => OK
-				prefixIface_raise_evTECXOprimido(&statechart, BUTTON_Status);	// Value -> Tecla
+				prefixIface_raise_evTeclaXOprimida(&statechart, BUTTON_Status);	// Value -> Tecla
 			else													// Event -> evTECXNoOprimido => OK
-				prefixIface_raise_evTECXNoOprimido(&statechart);
+				prefixIface_raise_evTeclaXNoOprimida(&statechart);
 
 			prefix_runCycle(&statechart);							// Run Cycle of Statechart
 		}
