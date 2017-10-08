@@ -37,7 +37,7 @@
       <vertices xsi:type="sgraph:Entry" xmi:id="_KdkTkKoqEeeoMs28mcYh6Q">
         <outgoingTransitions xmi:id="_kjcQQKoqEeeoMs28mcYh6Q" specification="" target="_KxlbwKoqEeeoMs28mcYh6Q"/>
       </vertices>
-      <vertices xsi:type="sgraph:State" xmi:id="_KxlbwKoqEeeoMs28mcYh6Q" specification="entry / opLED(LED1,LED_OFF);&#xA;raise evFrecuencySelected" name="LED1OFF" incomingTransitions="_kjcQQKoqEeeoMs28mcYh6Q _m2oa4KoqEeeoMs28mcYh6Q">
+      <vertices xsi:type="sgraph:State" xmi:id="_KxlbwKoqEeeoMs28mcYh6Q" specification="entry / opLED(LED1,LED_OFF&#xA;);&#xA;raise evFrecuencySelected" name="LED1OFF" incomingTransitions="_kjcQQKoqEeeoMs28mcYh6Q _m2oa4KoqEeeoMs28mcYh6Q">
         <outgoingTransitions xmi:id="_l29GkKoqEeeoMs28mcYh6Q" specification="siTECXOK [viTecla==TEC2]" target="_MKcFEKoqEeeoMs28mcYh6Q"/>
       </vertices>
       <vertices xsi:type="sgraph:State" xmi:id="_MKcFEKoqEeeoMs28mcYh6Q" specification="entry / opLED(LED1,LED_ON&#xA;);&#xA;raise evAmplitudeSelected" name="LED1ON" incomingTransitions="_l29GkKoqEeeoMs28mcYh6Q">

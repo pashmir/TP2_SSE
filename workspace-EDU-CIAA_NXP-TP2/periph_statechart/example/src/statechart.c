@@ -48,13 +48,13 @@
 #define TP2_Y ('Y')	/* Test Statechart EDU-CIAA-NXP - Idle Blink LED3 */
 #define TP2_Z ('Z')	/* Test Statechart EDU-CIAA-NXP - Button */
 #define TP2_1 (1)	/* Test Statechart EDU-CIAA-NXP - IDE LPCXpresso - Application */
-#define TP2_2 (2)	/* Test Statechart EDU-CIAA-NXP - Panel de Control Generador de Señales */
+#define TP2_2 (1)	/* Test Statechart EDU-CIAA-NXP - Panel de Control Generador de Señales. El panel de control usa el mismo main que aplication*/
 #define TP2_3 (3)	/* Test Statechart EDU-CIAA-NXP - Puerta Corrediza */
 #define TP2_4 (4)	/* Test Statechart EDU-CIAA-NXP - Portón de Cochera */
 #define TP2_5 (5)	/* Test Statechart EDU-CIAA-NXP - Escalera Mecánica */
 #define TP2_6 (6)	/* Test Statechart EDU-CIAA-NXP - Horno Microondas */
 
-#define TEST (TP2_Z)
+#define TEST (TP2_2)
 
 
 /*****************************************************************************
@@ -67,7 +67,7 @@ static Prefix statechart;
 
 #if (TEST==TP2_X)
 #define __USE_TIME_EVENTS (false)	/* "true" with TimerEvents or "false" without TimeEvents */
-#elif (TEST==TP2_XX) || (TEST==TP2_Y) || (TEST==TP2_Z)
+#elif (TEST==TP2_XX) || (TEST==TP2_Y) || (TEST==TP2_Z) || (TEST==TP2_1)
 #define __USE_TIME_EVENTS (true)
 #endif
 
@@ -314,9 +314,9 @@ int main(void)
 
 			BUTTON_Status = Buttons_GetStatus();
 			if (BUTTON_Status != 0)									// Event -> evTECXOprimodo => OK
-				prefixIface_raise_evTECXOprimido(&statechart, BUTTON_Status);	// Value -> Tecla
+				prefixIface_raise_evTeclaXOprimida(&statechart, BUTTON_Status);	// Value -> Tecla
 			else													// Event -> evTECXNoOprimido => OK
-				prefixIface_raise_evTECXNoOprimido(&statechart);
+				prefixIface_raise_evTeclaXNoOprimida(&statechart);
 
 			prefix_runCycle(&statechart);							// Run Cycle of Statechart
 		}
