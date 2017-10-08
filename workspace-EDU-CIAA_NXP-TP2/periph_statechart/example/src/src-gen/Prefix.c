@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 #include <string.h>
 #include "sc_types.h"
@@ -156,24 +157,25 @@ const sc_integer PREFIX_PREFIXIFACE_AMPMIN = 0;
 
 void prefix_init(Prefix* handle)
 {
-		sc_integer i;
+	sc_integer i;
+
+	for (i = 0; i < PREFIX_MAX_ORTHOGONAL_STATES; ++i)
+	{
+		handle->stateConfVector[i] = Prefix_last_state;
+	}
 	
-		for (i = 0; i < PREFIX_MAX_ORTHOGONAL_STATES; ++i)
-		{
-			handle->stateConfVector[i] = Prefix_last_state;
-		}
-		
-		
-		handle->stateConfVectorPosition = 0;
 	
-		prefix_clearInEvents(handle);
-		prefix_clearOutEvents(handle);
-	
-		/* Default init sequence for statechart prefix */
-		handle->internal.viTecla = 0;
-		handle->internal.viSelector = bool_false;
-		handle->internal.viFrecuencia = 0;
-		handle->internal.viAmplitud = 0;
+	handle->stateConfVectorPosition = 0;
+
+	prefix_clearInEvents(handle);
+	prefix_clearOutEvents(handle);
+
+	/* Default init sequence for statechart prefix */
+	handle->internal.viTecla = 0;
+	handle->internal.viSelector = bool_false;
+	handle->internal.viFrecuencia = 0;
+	handle->internal.viAmplitud = 0;
+
 }
 
 void prefix_enter(Prefix* handle)
@@ -200,14 +202,15 @@ void prefix_exit(Prefix* handle)
 
 sc_boolean prefix_isActive(const Prefix* handle)
 {
-	sc_boolean result = bool_false;
-	int i;
-	
-	for(i = 0; i < PREFIX_MAX_ORTHOGONAL_STATES; i++)
+	sc_boolean result;
+	if (handle->stateConfVector[0] != Prefix_last_state || handle->stateConfVector[1] != Prefix_last_state || handle->stateConfVector[2] != Prefix_last_state || handle->stateConfVector[3] != Prefix_last_state || handle->stateConfVector[4] != Prefix_last_state || handle->stateConfVector[5] != Prefix_last_state)
 	{
-		result = result || handle->stateConfVector[i] != Prefix_last_state;
+		result =  bool_true;
 	}
-	
+	else
+	{
+		result = bool_false;
+	}
 	return result;
 }
 
@@ -241,6 +244,7 @@ void prefix_runCycle(Prefix* handle)
 {
 	
 	prefix_clearOutEvents(handle);
+	
 	for (handle->stateConfVectorPosition = 0;
 		handle->stateConfVectorPosition < PREFIX_MAX_ORTHOGONAL_STATES;
 		handle->stateConfVectorPosition++)
@@ -248,77 +252,77 @@ void prefix_runCycle(Prefix* handle)
 			
 		switch (handle->stateConfVector[handle->stateConfVectorPosition])
 		{
-		case Prefix_TECLAS_NO_OPRIMIDAS:
+		case Prefix_TECLAS_NO_OPRIMIDAS :
 		{
 			prefix_react_TECLAS_NO_OPRIMIDAS(handle);
 			break;
 		}
-		case Prefix_TECLAS_DEBOUNCE:
+		case Prefix_TECLAS_DEBOUNCE :
 		{
 			prefix_react_TECLAS_DEBOUNCE(handle);
 			break;
 		}
-		case Prefix_TECLAS_VALIDACION:
+		case Prefix_TECLAS_VALIDACION :
 		{
 			prefix_react_TECLAS_VALIDACION(handle);
 			break;
 		}
-		case Prefix_TECLAS_OPRIMIDAS:
+		case Prefix_TECLAS_OPRIMIDAS :
 		{
 			prefix_react_TECLAS_OPRIMIDAS(handle);
 			break;
 		}
-		case Prefix_LED_RGB_LEDRgb:
+		case Prefix_LED_RGB_LEDRgb :
 		{
 			prefix_react_LED_RGB_LEDRgb(handle);
 			break;
 		}
-		case Prefix_LED_RGB_LEDrGb:
+		case Prefix_LED_RGB_LEDrGb :
 		{
 			prefix_react_LED_RGB_LEDrGb(handle);
 			break;
 		}
-		case Prefix_LED_RGB_LEDrgB:
+		case Prefix_LED_RGB_LEDrgB :
 		{
 			prefix_react_LED_RGB_LEDrgB(handle);
 			break;
 		}
-		case Prefix_LED1_AMPLITUD_FRECUENCIA_LED1OFF:
+		case Prefix_LED1_AMPLITUD_FRECUENCIA_LED1OFF :
 		{
 			prefix_react_LED1_AMPLITUD_FRECUENCIA_LED1OFF(handle);
 			break;
 		}
-		case Prefix_LED1_AMPLITUD_FRECUENCIA_LED1ON:
+		case Prefix_LED1_AMPLITUD_FRECUENCIA_LED1ON :
 		{
 			prefix_react_LED1_AMPLITUD_FRECUENCIA_LED1ON(handle);
 			break;
 		}
-		case Prefix_LED2___LED2OFF:
+		case Prefix_LED2___LED2OFF :
 		{
 			prefix_react_LED2___LED2OFF(handle);
 			break;
 		}
-		case Prefix_LED2___LED2ON:
+		case Prefix_LED2___LED2ON :
 		{
 			prefix_react_LED2___LED2ON(handle);
 			break;
 		}
-		case Prefix_LED3___LED3OFF:
+		case Prefix_LED3___LED3OFF :
 		{
 			prefix_react_LED3___LED3OFF(handle);
 			break;
 		}
-		case Prefix_LED3___LED3ON:
+		case Prefix_LED3___LED3ON :
 		{
 			prefix_react_LED3___LED3ON(handle);
 			break;
 		}
-		case Prefix_ESTADOS_FrecuencySelected:
+		case Prefix_ESTADOS_FrecuencySelected :
 		{
 			prefix_react_ESTADOS_FrecuencySelected(handle);
 			break;
 		}
-		case Prefix_ESTADOS_AmplitudeSelected:
+		case Prefix_ESTADOS_AmplitudeSelected :
 		{
 			prefix_react_ESTADOS_AmplitudeSelected(handle);
 			break;
@@ -346,63 +350,63 @@ sc_boolean prefix_isStateActive(const Prefix* handle, PrefixStates state)
 	switch (state)
 	{
 		case Prefix_TECLAS_NO_OPRIMIDAS :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_TECLAS_NO_OPRIMIDAS] == Prefix_TECLAS_NO_OPRIMIDAS
+			result = (sc_boolean) (handle->stateConfVector[0] == Prefix_TECLAS_NO_OPRIMIDAS
 			);
 			break;
 		case Prefix_TECLAS_DEBOUNCE :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_TECLAS_DEBOUNCE] == Prefix_TECLAS_DEBOUNCE
+			result = (sc_boolean) (handle->stateConfVector[0] == Prefix_TECLAS_DEBOUNCE
 			);
 			break;
 		case Prefix_TECLAS_VALIDACION :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_TECLAS_VALIDACION] == Prefix_TECLAS_VALIDACION
+			result = (sc_boolean) (handle->stateConfVector[0] == Prefix_TECLAS_VALIDACION
 			);
 			break;
 		case Prefix_TECLAS_OPRIMIDAS :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_TECLAS_OPRIMIDAS] == Prefix_TECLAS_OPRIMIDAS
+			result = (sc_boolean) (handle->stateConfVector[0] == Prefix_TECLAS_OPRIMIDAS
 			);
 			break;
 		case Prefix_LED_RGB_LEDRgb :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED_RGB_LEDRGB] == Prefix_LED_RGB_LEDRgb
+			result = (sc_boolean) (handle->stateConfVector[1] == Prefix_LED_RGB_LEDRgb
 			);
 			break;
 		case Prefix_LED_RGB_LEDrGb :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED_RGB_LEDRGB] == Prefix_LED_RGB_LEDrGb
+			result = (sc_boolean) (handle->stateConfVector[1] == Prefix_LED_RGB_LEDrGb
 			);
 			break;
 		case Prefix_LED_RGB_LEDrgB :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED_RGB_LEDRGB] == Prefix_LED_RGB_LEDrgB
+			result = (sc_boolean) (handle->stateConfVector[1] == Prefix_LED_RGB_LEDrgB
 			);
 			break;
 		case Prefix_LED1_AMPLITUD_FRECUENCIA_LED1OFF :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED1_AMPLITUD_FRECUENCIA_LED1OFF] == Prefix_LED1_AMPLITUD_FRECUENCIA_LED1OFF
+			result = (sc_boolean) (handle->stateConfVector[2] == Prefix_LED1_AMPLITUD_FRECUENCIA_LED1OFF
 			);
 			break;
 		case Prefix_LED1_AMPLITUD_FRECUENCIA_LED1ON :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED1_AMPLITUD_FRECUENCIA_LED1ON] == Prefix_LED1_AMPLITUD_FRECUENCIA_LED1ON
+			result = (sc_boolean) (handle->stateConfVector[2] == Prefix_LED1_AMPLITUD_FRECUENCIA_LED1ON
 			);
 			break;
 		case Prefix_LED2___LED2OFF :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED2___LED2OFF] == Prefix_LED2___LED2OFF
+			result = (sc_boolean) (handle->stateConfVector[3] == Prefix_LED2___LED2OFF
 			);
 			break;
 		case Prefix_LED2___LED2ON :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED2___LED2ON] == Prefix_LED2___LED2ON
+			result = (sc_boolean) (handle->stateConfVector[3] == Prefix_LED2___LED2ON
 			);
 			break;
 		case Prefix_LED3___LED3OFF :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED3___LED3OFF] == Prefix_LED3___LED3OFF
+			result = (sc_boolean) (handle->stateConfVector[4] == Prefix_LED3___LED3OFF
 			);
 			break;
 		case Prefix_LED3___LED3ON :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_LED3___LED3ON] == Prefix_LED3___LED3ON
+			result = (sc_boolean) (handle->stateConfVector[4] == Prefix_LED3___LED3ON
 			);
 			break;
 		case Prefix_ESTADOS_FrecuencySelected :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_ESTADOS_FRECUENCYSELECTED] == Prefix_ESTADOS_FrecuencySelected
+			result = (sc_boolean) (handle->stateConfVector[5] == Prefix_ESTADOS_FrecuencySelected
 			);
 			break;
 		case Prefix_ESTADOS_AmplitudeSelected :
-			result = (sc_boolean) (handle->stateConfVector[SCVI_PREFIX_ESTADOS_AMPLITUDESELECTED] == Prefix_ESTADOS_AmplitudeSelected
+			result = (sc_boolean) (handle->stateConfVector[5] == Prefix_ESTADOS_AmplitudeSelected
 			);
 			break;
 		default:
@@ -1557,3 +1561,5 @@ static void prefix_react_ESTADOS__entry_Default(Prefix* handle)
 	/* Default react sequence for initial entry  */
 	prefix_enseq_ESTADOS_FrecuencySelected_default(handle);
 }
+
+

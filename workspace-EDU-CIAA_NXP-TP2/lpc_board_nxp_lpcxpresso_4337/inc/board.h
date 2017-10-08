@@ -168,7 +168,7 @@ enum Leds {LEDR, LEDG, LEDB, LED1, LED2, LED3};
 #define LED_OFF	(true)
 
 /* For Push Buttons examples */
-enum Tecs {TEC1, TEC2, TEC3, TEC4};
+enum Tecs {TEC1, TEC2, TEC3, TEC4}; // De izquierda a derecha en la placa
 
 #define BUTTONS_TEC1_GPIO_PORT_NUM   0
 #define BUTTONS_TEC1_GPIO_BIT_NUM    4
