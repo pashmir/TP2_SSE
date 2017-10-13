@@ -110,6 +110,29 @@ void prefixIface_opLED(Prefix* handle, sc_integer LEDNumber, sc_boolean State)
 	Board_LED_Set((uint8_t) LEDNumber, State);
 }
 
+#define SC_STOP 0
+#define SC_REVERSE 1
+#define SC_FORWARD 2
+void prefixIface_opMOTOR(Prefix* handle, sc_integer ACCION)
+{
+	if (ACCION==SC_STOP){
+		Board_LED_Set((uint8_t)LEDG,LED_OFF);
+		Board_LED_Set((uint8_t)LEDB,LED_OFF);
+		Board_LED_Set((uint8_t)LEDR,LED_ON);
+	}
+
+	if (ACCION==SC_FORWARD){
+		Board_LED_Set((uint8_t)LEDR,LED_OFF);
+		Board_LED_Set((uint8_t)LEDB,LED_OFF);
+		Board_LED_Set((uint8_t)LEDG,LED_ON);
+		}
+	if (ACCION==SC_REVERSE){
+		Board_LED_Set((uint8_t)LEDG,LED_OFF);
+		Board_LED_Set((uint8_t)LEDR,LED_OFF);
+		Board_LED_Set((uint8_t)LEDB,LED_ON);
+	}
+}
+
 
 /*!
  * This is a timed state machine that requires timer services
